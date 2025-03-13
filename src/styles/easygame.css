@@ -1,0 +1,100 @@
+/* src/styles/easygame.css */
+.game-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+    text-align: center;
+    color: white;
+}
+
+.content-wrapper {
+    position: relative;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    border-radius: 15px;
+    background: rgba(96, 95, 95, 0.8);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    z-index: 3;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: 2px;
+    width: 500px;
+    height: 500px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    border: 2px solid white;
+}
+
+.tile {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid #999;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tile:hover {
+    cursor: pointer;
+    background-color: rgba(233, 24, 24, 0.67);
+    transition: background-color 0.3s ease;
+}
+
+.tile.hit {
+    background: url("../assets/hit.png") no-repeat center center/cover;
+}
+
+.tile.miss {
+    background: url("../assets/miss.png") no-repeat center center/cover;
+}
+
+.reset-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+    background-color: #555;
+}
+
+@media (max-width: 768px) {
+    .content-wrapper {
+        width: 80%;
+        padding: 1.5rem;
+    }
+    .game-board {
+        width: 300px;
+        height: 300px;
+    }
+}

@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Wallpoet&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    position: relative;
+    overflow: auto;
+}
+
+.title {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: rgb(67, 90, 205);
+    font-size: 5rem;
+    font-weight: bold;
+    font-family: "Wallpoet", serif;
+    text-shadow: 4px 4px 4px rgba(62, 56, 56, 0.731);
+    z-index: 2;
+}
+
+.foreground-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    height: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.332);
+    z-index: 1;
+}
+
+.mode-buttons-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; 
+    position: absolute; 
+    width: 100%;
+    top: 85%; 
+    transform: translateY(-50%);
+    z-index: 3; 
+}
+
+.mode-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.mode-button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+}
+
+.normal {
+    background-color: #000000;
+}
+
+.easy {
+    background-color: #000000;
+}
+
+.mode-button:hover {
+    filter: brightness(90%);
+}
+
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+        margin-top: 3rem;
+    }
+    img {
+        width: 90%;
+    }
+    .mode-buttons {
+        flex-direction: column; 
+        align-items: center;
+        gap: 30px; 
+    }
+
+    .mode-button {
+        width: 80%; 
+        padding: 10px 20px; 
+        font-size: 1rem; 
+        text-align: center;
+    }
+}

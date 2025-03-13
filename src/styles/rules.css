@@ -1,0 +1,73 @@
+
+.rules-page {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.content-wrapper {
+    position: relative;
+    margin: 100px auto 50px auto;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    border-radius: 15px;
+    background: rgba(96, 95, 95, 0.694);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+ol {
+    text-align: left;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.highlight-green {
+    border: 2px solid #00ff00;
+    padding: 0.2rem 0.4rem;
+    border-radius: 5px;
+    background-color: rgba(0, 255, 0, 0.1);
+}
+
+.highlight-black {
+    border: 2px solid #f44242;
+    padding: 0.2rem 0.4rem;
+    border-radius: 5px;
+    background-color: rgba(255, 0, 0, 0.139);
+}
+
+.credits {
+    font-size: 1rem;
+}
+
+.credits a {
+    color: #66c2ff;
+    text-decoration: none;
+}
+
+.credits a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .content-wrapper {
+        width: 80%;
+        margin: 120px auto 50px auto;
+        padding: 1.5rem;
+    }
+    .rules-page {
+        padding-top: 80px;
+        padding-bottom: 40px;
+    }
+}
