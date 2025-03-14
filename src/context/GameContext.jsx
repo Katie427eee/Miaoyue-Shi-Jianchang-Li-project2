@@ -1,0 +1,121 @@
+import React, { createContext, useContext, useEffect, useReducer } from "react";
+
+const initialEasyState = {
+    board: Array(100).fill(null),
+    ships: [],
+    hits: [],
+    misses: [],
+    gameOver: false,
+    timer: 0
+  };
+  
+  const initialNormalState = {
+    playerBoard: Array(100).fill(null),
+    enemyBoard: Array(100).fill(null),
+    playerShips: [],
+    enemyShips: [],
+    playerHits: [],
+    enemyHits: [],
+    playerMisses: [],
+    enemyMisses: [],
+    gameOver: false,
+    timer: 0,
+    playerTurn: true,
+    lastHit: null,
+    hitStack: [],
+  };
+  
+  // 读取 `EasyGame` 状态
+  const loadEasyState = () => {
+    try {
+      const savedState = localStorage.getItem("easyGameState");
+      return savedState ? { ...initialEasyState, ...JSON.parse(savedState) } : initialEasyState;
+    } catch (error) {
+      console.error("Error loading EasyGame state from localStorage:", error);
+      return initialEasyState;
+    }
+  };
+  
+  // 读取 `NormalGame` 状态
+  const loadNormalState = () => {
+    try {
+      const savedState = localStorage.getItem("normalGameState");
+      return savedState
+      ? { ...initialNormalState, ...JSON.parse(savedState) }
+      : initialNormalState;
+    } catch (error) {
+      console.error("Error loading NormalGame state from localStorage:", error);
+      return initialNormalState;
+    }
+  };
+  
+  // `EasyGame` Reducer
+  const easyGameReducer = (state, action) => {
+    switch (action.type) {
+      case "SET_GAME_STATE":
+        return { ...state, ...action.payload };
+      case "SET_HIT":
+        return { ...state, hits: [...state.hits, action.payload] };
+      case "SET_MISS":
+        return { ...state, misses: [...state.misses, action.payload] };
+      case "SET_GAME_OVER":
+        return { ...state, gameOver: true };
+      case "RESET_GAME":
+        return initialEasyState;
+      default:
+        return state;
+    }
+  };
+  
+  // `NormalGame` Reducer
+  const normalGameReducer = (state, action) => {
+    switch (action.type) {
+      case "SET_GAME_STATE":
+        return { ...state, ...action.payload };
+      case "SET_HIT_PLAYER":
+        return { ...state, playerHits: [...state.playerHits, action.payload] };
+      case "SET_HIT_ENEMY":
+        return { ...state, enemyHits: [...state.enemyHits, action.payload] };
+      case "SET_MISS_PLAYER":
+        return { ...state, playerMisses: [...state.playerMisses, action.payload] };
+      case "SET_MISS_ENEMY":
+        return { ...state, enemyMisses: [...state.enemyMisses, action.payload] };
+      case "SET_GAME_OVER":
+        return { ...state, gameOver: true };
+      case "RESET_GAME":
+        return initialNormalState;
+      default:
+        return state;
+    }
+  };
+  
+  // `GameContext`
+  export const GameContext = createContext();
+  
+  // `GameProvider` 管理两个不同的状态
+  export const GameProvider = ({ children }) => {
+    const [easyState, easyDispatch] = useReducer(easyGameReducer, loadEasyState());
+    const [normalState, normalDispatch] = useReducer(normalGameReducer, loadNormalState());
+  
+    // `EasyGame` 的 `localStorage` 更新
+    useEffect(() => {
+      localStorage.setItem("easyGameState", JSON.stringify(easyState));
+    }, [easyState]);
+  
+    // `NormalGame` 的 `localStorage` 更新
+    useEffect(() => {
+      localStorage.setItem("normalGameState", JSON.stringify(normalState));
+    }, [normalState]);
+  
+    return (
+      <GameContext.Provider value={{ easyState, easyDispatch, normalState, normalDispatch }}>
+        {children}
+      </GameContext.Provider>
+    );
+  };
+  
+  // 自定义 Hook
+  export const useGame = () => {
+    return useContext(GameContext);
+  };
+  

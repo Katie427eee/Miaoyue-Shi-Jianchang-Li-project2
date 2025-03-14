@@ -1,8 +1,8 @@
-// src/pages/EasyGame.jsx
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import "../styles/common.css";
 import "../styles/easygame.css";
+import { useGame } from "../context/GameContext";
 
 const generateShips = () => {
   const shipSizes = [5, 4, 3, 3, 2];
@@ -18,7 +18,7 @@ const generateShips = () => {
 
       for (let i = 0; i < size; i++) {
         let pos = isVertical ? start + i * 10 : start + i;
-        if (pos >= 100 || (isVertical && pos % 10 !== start % 10) || occupied.has(pos)) {
+        if (pos >= 100 || (isVertical && pos % 10 !== start % 10) || (!isVertical && Math.floor(start / 10) !== Math.floor(pos / 10)) || occupied.has(pos)) {
           positions = [];
           break;
         }
@@ -36,37 +36,56 @@ const generateShips = () => {
 };
 
 const EasyGame = () => {
-  const [board, setBoard] = useState(Array(100).fill(null));
-  const [ships, setShips] = useState(generateShips());
-  const [hits, setHits] = useState([]);
-  const [misses, setMisses] = useState([]);
-  const [gameOver, setGameOver] = useState(false);
+  const { easyState: state, easyDispatch: dispatch } = useGame();
 
+  // new game
+  useEffect(() => {
+    if (state.ships.length === 0) {
+      dispatch({ type: "SET_GAME_STATE", payload: { ships: generateShips() } });
+    }
+  }, [dispatch, state.ships]);
 
+  // handle player click
   const handleCellClick = (index) => {
-    if (hits.includes(index) || misses.includes(index) || gameOver) return; 
+    if (state.hits.includes(index) || state.misses.includes(index) || state.gameOver) return;
 
-    let isHit = ships.some((ship) => ship.includes(index));
+    let isHit = state.ships.some((ship) => ship.includes(index));
     if (isHit) {
-      setHits([...hits, index]);
+      dispatch({ type: "SET_HIT", payload: index });
     } else {
-      setMisses([...misses, index]);
+      dispatch({ type: "SET_MISS", payload: index });
     }
   };
 
+  // check gameover
   useEffect(() => {
-    let allSunk = ships.every((ship) => ship.every((pos) => hits.includes(pos)));
-    if (allSunk) {
-      setGameOver(true);
+    if (state.ships.length > 0) { // make sure there is ship
+      let allSunk = state.ships.every((ship) => ship.every((pos) => state.hits.includes(pos)));
+      if (allSunk) {
+        dispatch({ type: "SET_GAME_OVER" });
+        localStorage.removeItem("easyGameState"); // delete localStorage
+      }
     }
-  }, [hits, ships]);
+  }, [state.hits, state.ships, dispatch]);
+  
 
+  // timer
+  useEffect(() => {
+    let interval;
+    if (!state.gameOver) {
+      interval = setInterval(() => {
+        dispatch({ type: "SET_GAME_STATE", payload: { timer: state.timer + 1 } });
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [state.gameOver, state.timer, dispatch]);
+
+  // reset
   const resetGame = () => {
-    setBoard(Array(100).fill(null));
-    setShips(generateShips());
-    setHits([]);
-    setMisses([]);
-    setGameOver(false);
+    dispatch({ type: "RESET_GAME" });
+    localStorage.removeItem("easyGameState");
   };
 
   return (
@@ -75,18 +94,18 @@ const EasyGame = () => {
       <div className="background"></div>
       <div className="content-wrapper">
         <h2>Easy Mode - Free Play</h2>
-        {gameOver && <h3 className="game-over">Game Over! Player Won!</h3>}
+        <h3>Time Elapsed: {state.timer} seconds</h3>
+        {state.gameOver && <h3 className="game-over">Game Over! Player Won!</h3>}
+        <button className="reset-button" onClick={resetGame}>Reset Game</button>
         <div className="game-board">
-          {board.map((_, index) => (
+          {state.board.map((_, index) => (
             <div
               key={index}
-              className={`tile ${hits.includes(index) ? "hit" : ""} ${misses.includes(index) ? "miss" : ""}`}
+              className={`tile ${state.hits.includes(index) ? "hit" : ""} ${state.misses.includes(index) ? "miss" : ""}`}
               onClick={() => handleCellClick(index)}
-            >
-            </div>
+            ></div>
           ))}
         </div>
-        <button className="reset-button" onClick={resetGame}>Reset Game</button>
       </div>
     </div>
   );
