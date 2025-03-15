@@ -10,7 +10,7 @@ const Navbar = () => {
           <div className="game-title">Battleship War</div>
           <ul>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/game/normal">Game</Link></li>
+            <li><Link to="/setup">Game</Link></li>
             <li><Link to="/rules">Rules</Link></li>
             <li><Link to="/highscores">High Scores</Link></li>
           </ul>

@@ -16,7 +16,7 @@ const Home = () => {
           <img src={backgroundImg} alt="Battleship Background" className="foreground-image" />
           <div className="mode-buttons-container">
             <div className="mode-buttons">
-              <Link to="/game/normal" className="mode-button normal">Play Normal Mode</Link>
+              <Link to="/setup" className="mode-button normal">Play Normal Mode</Link>
               <Link to="/game/easy" className="mode-button easy">Play Easy Mode</Link>
             </div>
           </div>

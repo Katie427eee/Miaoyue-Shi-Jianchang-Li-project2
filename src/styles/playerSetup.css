@@ -1,4 +1,4 @@
-/* src/styles/normalgame.css */
+@import url("https://fonts.googleapis.com/css2?family=Wallpoet&display=swap");
 
 .game-page {
     min-height: 100vh;
@@ -12,9 +12,7 @@
 }
 
 .content-wrapper {
-    position: relative;
-    width: 90%;
-    max-width: 1200px;
+    width: 60%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -32,14 +30,39 @@ h2 {
     margin-bottom: 1rem;
 }
 
-.boards-container {
+.ship-selection {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+.ship {
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    width: 100%;
-    max-width: 750px;
-    gap: 40px;
-    margin: 0 auto;
+    padding: 5px;
+    background-color: navy;
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: grab;
+    transition: transform 0.2s ease-in-out;
+}
+
+.ship:hover {
+    transform: scale(1.1);
+}
+
+.ship-tile {
+    width: 30px;
+    height: 30px;
+    background-color: grey;
+    border: 1px solid black;
 }
 
 .game-board {
@@ -47,13 +70,14 @@ h2 {
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
     gap: 2px;
-    width: 300px;
-    height: 300px;
+    width: 500px;
+    height: 500px;
     background-color: rgba(0, 0, 0, 0.6);
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     border: 2px solid white;
+    margin-bottom: 20px;
 }
 
 .tile {
@@ -70,59 +94,76 @@ h2 {
 }
 
 .tile:hover {
-    cursor: pointer;
     background-color: rgba(233, 24, 24, 0.67);
-    transition: background-color 0.3s ease;
 }
 
-.tile.hit-enemy {
-    background: url("../assets/hit.png") no-repeat center center/cover;
-}
-
-.tile.miss {
-    background: url("../assets/miss.png") no-repeat center center/cover;
-}
-
-.tile.ship {
+.placed-ship {
     background: url("../assets/my-ship.png") no-repeat center center/cover;
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
-.tile.hit-player {
-    background: url("../assets/hitmy.png") no-repeat center center/cover;
+.button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+}
+
+.start-button,
+.reset-button {
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    height: 50px;
+    min-width: 150px;
+    box-sizing: border-box;
+}
+
+.start-button {
+    background-color: green;
+    color: white;
+}
+
+.start-button:hover {
+    background-color: darkgreen;
 }
 
 .reset-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    font-weight: bold;
+    background-color: #555;
     color: white;
-    background-color: #333;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 .reset-button:hover {
-    background-color: #555;
+    background-color: #777;
 }
 
 @media (max-width: 768px) {
     .content-wrapper {
-        width: 95%;
+        width: 80%;
         padding: 1.5rem;
     }
 
     .game-board {
-        width: 280px;
-        height: 280px;
+        width: 300px;
+        height: 300px;
     }
 
-    .boards-container {
+    .button-container {
         flex-direction: column;
-        align-items: center;
-        gap: 20px;
+        gap: 10px;
+    }
+
+    .start-button,
+    .reset-button {
+        width: 100%;
+        font-size: 16px;
     }
 }

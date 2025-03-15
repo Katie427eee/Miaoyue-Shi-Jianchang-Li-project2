@@ -7,6 +7,7 @@ import NormalGame from "./pages/NormalGame";
 import Rules from "./pages/Rules";
 import HighScores from "./pages/HighScores";
 import Navbar from "./components/Navbar";
+import PlayerSetup from "./pages/PlayerSetup";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/game/normal" element={<NormalGame />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/highscores" element={<HighScores />} />
+        <Route path="/setup" element={<PlayerSetup />} />
       </Routes>
     </>
   );

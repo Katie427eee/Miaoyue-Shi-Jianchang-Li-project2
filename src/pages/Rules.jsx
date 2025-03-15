@@ -22,7 +22,7 @@ const Rules = () => {
         </ol>
         <section className="credits">
           <h3>Credits</h3>
-          <p>Made by <a href="mailto:shi.mia@northeastern.edu">Miaoyue Shi</a></p>
+          <p>Made by <a href="mailto:shi.mia@northeastern.edu">Miaoyue Shi</a> and <a href="https://github.com/EvilLeeovo">Jianchang</a></p>
         </section>
       </div>
     </div>
