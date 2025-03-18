@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGame } from "../context/GameContext";
 import Navbar from "../components/Navbar";
@@ -13,10 +13,31 @@ const shipList = [
 ];
 
 const PlayerSetup = () => {
-  const { normalDispatch: dispatch } = useGame();
+  // const { normalDispatch: dispatch } = useGame();
+  const { normalState, normalDispatch, easyState, easyDispatch } = useGame();
   const [availableShips, setAvailableShips] = useState(shipList);
   const [playerShips, setPlayerShips] = useState([]);
   const navigate = useNavigate();
+
+  if (!normalState || !easyState) {
+    return <div className="game-page"><h2>Loading...</h2></div>;
+  }
+
+
+  useEffect(() => {
+    const lastMode = localStorage.getItem("lastMode");
+
+    if (lastMode === "easy") {
+        normalDispatch({ type: "RESET_GAME" });  
+        localStorage.removeItem("normalGameState");
+    } else if (lastMode === "normal") {
+        easyDispatch({ type: "RESET_GAME" }); 
+        localStorage.removeItem("easyGameState");
+    }
+
+    localStorage.setItem("lastMode", "setup");
+  }, [normalDispatch, easyDispatch]);
+
 
   const handleDragStart = (e, ship) => {
     e.dataTransfer.setData("ship", JSON.stringify(ship));
@@ -34,13 +55,39 @@ const PlayerSetup = () => {
     setAvailableShips(availableShips.filter(s => s.name !== ship.name));
   };
 
+
   const startGame = () => {
     if (playerShips.length !== 5) {
       alert("You must place all ships!");
       return;
     }
 
-    dispatch({ type: "SET_GAME_STATE", payload: { playerShips, enemyShips: generateShips() } });
+    // dispatch({ type: "SET_GAME_STATE", payload: { playerShips, enemyShips: generateShips() } });
+    normalDispatch({
+      type: "SET_GAME_STATE",
+      payload: { 
+        playerShips, 
+        enemyShips: generateShips(),
+        playerHits: [], 
+        enemyHits: [], 
+        playerMisses: [], 
+        enemyMisses: [], 
+        gameOver: false, 
+        timer: 0
+      }
+    });
+
+    // localStorage.setItem("lastMode", "normal");
+    localStorage.setItem("normalGameState", JSON.stringify({
+      playerShips,
+      enemyShips: generateShips(),
+      playerHits: [],
+      enemyHits: [],
+      playerMisses: [],
+      enemyMisses: [],
+      gameOver: false,
+      timer: 0
+    }));
 
     navigate("/game/normal");
   };

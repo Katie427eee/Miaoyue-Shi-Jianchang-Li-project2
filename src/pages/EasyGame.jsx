@@ -3,12 +3,14 @@ import Navbar from "../components/Navbar";
 import "../styles/common.css";
 import "../styles/easygame.css";
 import { useGame } from "../context/GameContext";
+import { useNavigate } from "react-router-dom";
 
 const generateShips = () => {
   const shipSizes = [5, 4, 3, 3, 2];
   let ships = [];
   let occupied = new Set();
-
+  
+  
   for (let size of shipSizes) {
     let placed = false;
     while (!placed) {
@@ -37,6 +39,7 @@ const generateShips = () => {
 
 const EasyGame = () => {
   const { easyState: state, easyDispatch: dispatch } = useGame();
+  const navigate = useNavigate();
 
   // new game
   useEffect(() => {
@@ -44,6 +47,12 @@ const EasyGame = () => {
       dispatch({ type: "SET_GAME_STATE", payload: { ships: generateShips() } });
     }
   }, [dispatch, state.ships]);
+
+  useEffect(() => {
+    if (state.gameOver) {
+        localStorage.removeItem("easyGameState"); 
+    } 
+  }, [state.gameOver, navigate]);
 
   // handle player click
   const handleCellClick = (index) => {

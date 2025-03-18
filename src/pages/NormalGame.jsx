@@ -41,13 +41,19 @@ const NormalGame = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (state.enemyShips.length === 0) {
-          dispatch({
-            type: "SET_GAME_STATE",
-            payload: { enemyShips: generateShips() }
-          });
-        }
+      if (!state.enemyShips || state.enemyShips.length === 0) {
+        dispatch({
+          type: "SET_GAME_STATE",
+          payload: { enemyShips: generateShips() }
+        });
+      }
     }, [dispatch, state.enemyShips]);
+
+    useEffect(() => {
+      if (state.gameOver) {
+          localStorage.removeItem("normalGameState"); 
+      } 
+    }, [state.gameOver, navigate]);
 
     useEffect(() => {
         let interval;

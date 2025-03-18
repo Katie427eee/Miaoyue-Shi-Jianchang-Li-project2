@@ -14,6 +14,7 @@ const initialEasyState = {
     enemyBoard: Array(100).fill(null),
     playerShips: [],
     enemyShips: [],
+    //enemyShips: generateShips(),
     playerHits: [],
     enemyHits: [],
     playerMisses: [],
@@ -25,7 +26,7 @@ const initialEasyState = {
     hitStack: [],
   };
   
-  // 读取 `EasyGame` 状态
+  // `EasyGame` 
   const loadEasyState = () => {
     try {
       const savedState = localStorage.getItem("easyGameState");
@@ -36,13 +37,11 @@ const initialEasyState = {
     }
   };
   
-  // 读取 `NormalGame` 状态
+  // `NormalGame`
   const loadNormalState = () => {
     try {
       const savedState = localStorage.getItem("normalGameState");
-      return savedState
-      ? { ...initialNormalState, ...JSON.parse(savedState) }
-      : initialNormalState;
+      return savedState ? { ...initialNormalState, ...JSON.parse(savedState) } : initialNormalState;
     } catch (error) {
       console.error("Error loading NormalGame state from localStorage:", error);
       return initialNormalState;
@@ -92,19 +91,27 @@ const initialEasyState = {
   // `GameContext`
   export const GameContext = createContext();
   
-  // `GameProvider` 管理两个不同的状态
+  // `GameProvider` 
   export const GameProvider = ({ children }) => {
     const [easyState, easyDispatch] = useReducer(easyGameReducer, loadEasyState());
     const [normalState, normalDispatch] = useReducer(normalGameReducer, loadNormalState());
   
-    // `EasyGame` 的 `localStorage` 更新
+    // `EasyGame' `localStorage` update
     useEffect(() => {
-      localStorage.setItem("easyGameState", JSON.stringify(easyState));
+      if (!easyState.gameOver){
+        localStorage.setItem("easyGameState", JSON.stringify(easyState));
+      } else{
+        localStorage.removeItem("easyGameState");
+      }
     }, [easyState]);
   
-    // `NormalGame` 的 `localStorage` 更新
+    // `NormalGame`  `localStorage` update
     useEffect(() => {
-      localStorage.setItem("normalGameState", JSON.stringify(normalState));
+      if (!normalState.gameOver){
+        localStorage.setItem("normalGameState", JSON.stringify(normalState));
+      } else{
+        localStorage.removeItem("normalGameState");
+      }
     }, [normalState]);
   
     return (
@@ -114,7 +121,7 @@ const initialEasyState = {
     );
   };
   
-  // 自定义 Hook
+  // Hook
   export const useGame = () => {
     return useContext(GameContext);
   };
