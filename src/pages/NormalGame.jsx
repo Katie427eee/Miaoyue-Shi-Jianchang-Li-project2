@@ -16,17 +16,24 @@ const generateShips = () => {
       let isVertical = Math.random() > 0.5;
       let start = Math.floor(Math.random() * 100);
       let positions = [];
+      let validPlacement = true;
 
       for (let i = 0; i < size; i++) {
         let pos = isVertical ? start + i * 10 : start + i;
-        if (pos >= 100 || (isVertical && pos % 10 !== start % 10) || (!isVertical && Math.floor(start / 10) !== Math.floor(pos / 10)) || occupied.has(pos)) {
-          positions = [];
+
+        if (!isVertical && Math.floor(start / 10) !== Math.floor(pos / 10)) {
+          validPlacement = false;
+          break;
+        }
+
+        if (pos >= 100 || occupied.has(pos)) {
+          validPlacement = false;
           break;
         }
         positions.push(pos);
       }
 
-      if (positions.length === size) {
+      if (validPlacement && positions.length === size) {
         ships.push(positions);
         positions.forEach((pos) => occupied.add(pos));
         placed = true;
