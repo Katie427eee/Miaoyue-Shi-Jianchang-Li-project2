@@ -26,7 +26,7 @@ const Home = () => {
   };  
 
   const handlePlayEasy = () => {
-    if (!easyState.gameOver && easyState.playerShips.length > 0) {
+    if (!easyState.gameOver && easyState.ships.length > 0) {
       navigate("/game/easy")
     } else {
       easyDispatch({ type: "RESET_GAME" });  
