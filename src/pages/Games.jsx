@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import "../styles/common.css";
+import "../styles/games.css";
 
 const Games = () => {
   const { user } = useAuth();
@@ -25,102 +28,44 @@ const Games = () => {
 
   const formatDate = (d) => new Date(d).toLocaleString();
 
+  const renderGameItem = (g, label = "View") => (
+    <li key={g._id} className="game-item">
+      <div className="game-info">
+        <div>
+          {g.player1 === user ? <span className="highlight">{g.player1}</span> : g.player1} vs{" "}
+          {g.player2 === user ? <span className="highlight">{g.player2}</span> : g.player2 || "?"}
+        </div>
+        <div className="game-meta">
+          {g.winner && <>? Winner: <b>{g.winner}</b><br /></>}
+          ? {formatDate(g.createdAt)} ~ {formatDate(g.updatedAt || g.createdAt)}
+        </div>
+      </div>
+      <button onClick={() => navigate(`/game/${g._id}`)}>{label}</button>
+    </li>
+  );
+
+  const renderSection = (title, games, label) =>
+    games?.length > 0 && (
+      <section>
+        <h3>{title}</h3>
+        <ul>{games.map((g) => renderGameItem(g, label))}</ul>
+      </section>
+    );
+
   if (loading) return <div className="game-page"><h2>Loading games...</h2></div>;
   if (!gamesData) return <div className="game-page"><h2>Error loading games.</h2></div>;
 
   return (
     <div className="game-page">
+      <Navbar />
+      <div className="background"></div>
       <div className="content-wrapper">
         <h2>All Games</h2>
-
-        {gamesData.loggedIn ? (
-          <>
-            <section>
-              <h3>Active Games</h3>
-              <ul>
-                {gamesData.activeGames.map((g) => (
-                  <li key={g._id}>
-                    {g.player1} vs {g.player2} ！ {formatDate(g.createdAt)} ！ 
-                    <button onClick={() => navigate(`/game/${g._id}`)}>Play</button>
-                  </li>
-                ))}
-              </ul>
-            </section>
-            <section>
-              <h3>Completed Games</h3>
-              <ul>
-                {gamesData.completedGames.map((g) => (
-                  <li key={g._id}>
-                    {g.player1} vs {g.player2} ！ Winner: <b>{g.winner}</b> ！
-                    {formatDate(g.createdAt)} ~ {formatDate(g.updatedAt)}
-                    <button onClick={() => navigate(`/game/${g._id}`)}>View</button>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </>
-        ) : (
-          <>
-            <section>
-              <h3>Open Games</h3>
-              <ul>
-                {gamesData.openGames.map((g) => (
-                  <li key={g._id}>
-                    Started by {g.player1} ！ {formatDate(g.createdAt)} ！
-                    <button onClick={() => navigate(`/game/${g._id}`)}>Join</button>
-                  </li>
-                ))}
-              </ul>
-            </section>
-            <section>
-              <h3>My Open Games</h3>
-              <ul>
-                {gamesData.myOpenGames.map((g) => (
-                  <li key={g._id}>
-                    You started ！ {formatDate(g.createdAt)} ！
-                    <button onClick={() => navigate(`/game/${g._id}`)}>View</button>
-                  </li>
-                ))}
-              </ul>
-            </section>
-            <section>
-              <h3>My Active Games</h3>
-              <ul>
-                {gamesData.myActiveGames.map((g) => (
-                  <li key={g._id}>
-                    With {g.player2 || g.player1} ！ {formatDate(g.createdAt)} ！
-                    <button onClick={() => navigate(`/game/${g._id}`)}>Play</button>
-                  </li>
-                ))}
-              </ul>
-            </section>
-            <section>
-              <h3>My Completed Games</h3>
-              <ul>
-                {gamesData.myCompletedGames.map((g) => (
-                  <li key={g._id}>
-                    Opponent: {g.player1 === g.winner ? g.player2 : g.player1} ！ Winner: <b>{g.winner}</b> ！
-                    {formatDate(g.createdAt)} ~ {formatDate(g.updatedAt)} ！
-                    <button onClick={() => navigate(`/game/${g._id}`)}>View</button>
-                  </li>
-                ))}
-              </ul>
-            </section>
-            <section>
-              <h3>Other Games</h3>
-              <ul>
-                {gamesData.otherGames.map((g) => (
-                  <li key={g._id}>
-                    {g.player1} vs {g.player2} ！ 
-                    {g.winner ? <>Winner: <b>{g.winner}</b> ！</> : null}
-                    {formatDate(g.createdAt)} ~ {formatDate(g.updatedAt)} ！
-                    <button onClick={() => navigate(`/game/${g._id}`)}>View</button>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </>
-        )}
+        {renderSection("Open Games", gamesData.openGames, "Join")}
+        {renderSection("My Open Games", gamesData.myOpenGames, "View")}
+        {renderSection("My Active Games", gamesData.myActiveGames, "Play")}
+        {renderSection("My Completed Games", gamesData.myCompletedGames, "View")}
+        {renderSection("Other Games", gamesData.otherGames, "View")}
       </div>
     </div>
   );
