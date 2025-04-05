@@ -10,6 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "mongoose": "^8.13.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.3.0"
@@ -24,5 +30,18 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
     "vite": "^6.2.0"
-  }
+  },
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Katie427eee/Miaoyue-Shi-Jianchang-Li-project2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Katie427eee/Miaoyue-Shi-Jianchang-Li-project2/issues"
+  },
+  "homepage": "https://github.com/Katie427eee/Miaoyue-Shi-Jianchang-Li-project2#readme"
 }

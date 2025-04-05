@@ -5,14 +5,16 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./styles/common.css";
 import { GameProvider } from "./context/GameContext";
+import { AuthProvider } from "./context/AuthContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <GameProvider>
-        <App />
-      </GameProvider>
+      <AuthProvider>
+        <GameProvider>
+          <App />
+        </GameProvider>
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
-

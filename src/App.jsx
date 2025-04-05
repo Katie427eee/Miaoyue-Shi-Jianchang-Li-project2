@@ -8,6 +8,9 @@ import Rules from "./pages/Rules";
 import HighScores from "./pages/HighScores";
 import Navbar from "./components/Navbar";
 import PlayerSetup from "./pages/PlayerSetup";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Games from "./pages/Games";
 
 const App = () => {
   return (
@@ -20,6 +23,9 @@ const App = () => {
         <Route path="/rules" element={<Rules />} />
         <Route path="/highscores" element={<HighScores />} />
         <Route path="/setup" element={<PlayerSetup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/games" element={<Games />} />
       </Routes>
     </>
   );

@@ -1,10 +1,25 @@
 // src/pages/HighScores.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../styles/common.css";
 import "../styles/highscores.css";
 
 const HighScores = () => {
+  const [scores, setScores] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/scores", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setScores(data.scores || []);
+        setCurrentUser(data.currentUser || null);
+      })
+      .catch((err) => console.error("Error loading scores:", err));
+  }, []);
+
   return (
     <div className="highscores-page">
       <Navbar />
@@ -20,10 +35,16 @@ const HighScores = () => {
             </tr>
           </thead>
           <tbody>
-            <tr><td>Emily</td><td>12</td><td>5</td></tr>
-            <tr><td>Liam</td><td>10</td><td>7</td></tr>
-            <tr><td>Sophia</td><td>9</td><td>3</td></tr>
-            <tr><td>Noah</td><td>8</td><td>6</td></tr>
+            {scores.map(({ username, wins, losses }) => (
+              <tr
+                key={username}
+                className={username === currentUser ? "highlight" : ""}
+              >
+                <td>{username}</td>
+                <td>{wins}</td>
+                <td>{losses}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

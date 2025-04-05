@@ -48,6 +48,12 @@ table th {
     font-weight: bold;
 }
 
+.highlight {
+    font-weight: bold;
+    color: #1e90ff;
+    background-color: #f0f8ff;
+  }  
+
 @media (max-width: 768px) {
     .content-wrapper {
         width: 80%;

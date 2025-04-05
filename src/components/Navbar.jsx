@@ -1,39 +1,47 @@
 // src/components/Navbar.jsx
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "../styles/common.css";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useGame } from "../context/GameContext";
+import { useAuth } from "../context/AuthContext";
+import "../styles/common.css";
 
 const Navbar = () => {
-
-  // const { normalState, easyState } = useGame();
-  const { normalState, normalDispatch, easyState, easyDispatch } = useGame();
+  const { normalState } = useGame();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  const getGameLink = () => {
-    if (!normalState.gameOver && normalState.playerShips.length > 0) {
-      return "/game/normal";  
-    } else if (!easyState.gameOver && easyState.ships.length > 0) {
-      return "/game/easy";  
-    } else {
-      return "/setup";  
-    }
-  };  
-
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <nav>
-      <div className="game-title">Battleship War</div>
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        {/* <li><Link to={"/setup"}>Game</Link></li> */}
-        <li><Link to={getGameLink()}>Game</Link></li>
-        <li><Link to="/rules">Rules</Link></li>
-        <li><Link to="/highscores">High Scores</Link></li>
+      <span className="game-title">Battleship</span>
+
+      <ul className="nav-left">
+        <li><NavLink to="/" className={({ isActive }) => isActive ? "active" : ""}>Home</NavLink></li>
+        <li><NavLink to={normalState?.playerShips?.length ? "/game/normal" : "/setup"} className={({ isActive }) => isActive ? "active" : ""}>New Game</NavLink></li>
+        <li><NavLink to="/games" className={({ isActive }) => isActive ? "active" : ""}>All Games</NavLink></li>
+        <li><NavLink to="/rules" className={({ isActive }) => isActive ? "active" : ""}>Rules</NavLink></li>
+        <li><NavLink to="/highscores" className={({ isActive }) => isActive ? "active" : ""}>High Scores</NavLink></li>
+      </ul>
+
+      <ul className="nav-right">
+        {user ? (
+          <>
+            <li><span style={{ color: "#66c2ff" }}>Hi, {user}</span></li>
+            <li><button onClick={handleLogout}>Logout</button></li>
+          </>
+        ) : (
+          <>
+            <li><NavLink to="/login" className={({ isActive }) => isActive ? "active" : ""}>Login</NavLink></li>
+            <li><NavLink to="/register" className={({ isActive }) => isActive ? "active" : ""}>Register</NavLink></li>
+          </>
+        )}
       </ul>
     </nav>
   );
-    
 };
 
 export default Navbar;
