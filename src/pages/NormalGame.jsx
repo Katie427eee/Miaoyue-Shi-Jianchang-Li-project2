@@ -160,6 +160,7 @@ const NormalGame = () => {
             <Navbar />
             <div className="background"></div>
             <div className="content-wrapper">
+                {/* <h2>Normal Mode - Player vs Enemy</h2> */}
                 <h2>Normal Mode - Player vs Enemy</h2>
                 <button className="reset-button" onClick={resetGame}>Reset Game</button>
                 

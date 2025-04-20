@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 
-const initialEasyState = {
-    board: Array(100).fill(null),
-    ships: [],
-    hits: [],
-    misses: [],
-    gameOver: false,
-    timer: 0
-  };
+// const initialEasyState = {
+//     board: Array(100).fill(null),
+//     ships: [],
+//     hits: [],
+//     misses: [],
+//     gameOver: false,
+//     timer: 0
+//   };
   
   const initialNormalState = {
     playerBoard: Array(100).fill(null),
@@ -27,15 +27,15 @@ const initialEasyState = {
   };
   
   // `EasyGame` 
-  const loadEasyState = () => {
-    try {
-      const savedState = localStorage.getItem("easyGameState");
-      return savedState ? { ...initialEasyState, ...JSON.parse(savedState) } : initialEasyState;
-    } catch (error) {
-      console.error("Error loading EasyGame state from localStorage:", error);
-      return initialEasyState;
-    }
-  };
+  // const loadEasyState = () => {
+  //   try {
+  //     const savedState = localStorage.getItem("easyGameState");
+  //     return savedState ? { ...initialEasyState, ...JSON.parse(savedState) } : initialEasyState;
+  //   } catch (error) {
+  //     console.error("Error loading EasyGame state from localStorage:", error);
+  //     return initialEasyState;
+  //   }
+  // };
   
   // `NormalGame`
   const loadNormalState = () => {
@@ -49,22 +49,22 @@ const initialEasyState = {
   };
   
   // `EasyGame` Reducer
-  const easyGameReducer = (state, action) => {
-    switch (action.type) {
-      case "SET_GAME_STATE":
-        return { ...state, ...action.payload };
-      case "SET_HIT":
-        return { ...state, hits: [...state.hits, action.payload] };
-      case "SET_MISS":
-        return { ...state, misses: [...state.misses, action.payload] };
-      case "SET_GAME_OVER":
-        return { ...state, gameOver: true };
-      case "RESET_GAME":
-        return initialEasyState;
-      default:
-        return state;
-    }
-  };
+  // const easyGameReducer = (state, action) => {
+  //   switch (action.type) {
+  //     case "SET_GAME_STATE":
+  //       return { ...state, ...action.payload };
+  //     case "SET_HIT":
+  //       return { ...state, hits: [...state.hits, action.payload] };
+  //     case "SET_MISS":
+  //       return { ...state, misses: [...state.misses, action.payload] };
+  //     case "SET_GAME_OVER":
+  //       return { ...state, gameOver: true };
+  //     case "RESET_GAME":
+  //       return initialEasyState;
+  //     default:
+  //       return state;
+  //   }
+  // };
   
   // `NormalGame` Reducer
   const normalGameReducer = (state, action) => {
@@ -93,17 +93,17 @@ const initialEasyState = {
   
   // `GameProvider` 
   export const GameProvider = ({ children }) => {
-    const [easyState, easyDispatch] = useReducer(easyGameReducer, loadEasyState());
+    // const [easyState, easyDispatch] = useReducer(easyGameReducer, loadEasyState());
     const [normalState, normalDispatch] = useReducer(normalGameReducer, loadNormalState());
   
     // `EasyGame' `localStorage` update
-    useEffect(() => {
-      if (!easyState.gameOver){
-        localStorage.setItem("easyGameState", JSON.stringify(easyState));
-      } else{
-        localStorage.removeItem("easyGameState");
-      }
-    }, [easyState]);
+    // useEffect(() => {
+    //   if (!easyState.gameOver){
+    //     localStorage.setItem("easyGameState", JSON.stringify(easyState));
+    //   } else{
+    //     localStorage.removeItem("easyGameState");
+    //   }
+    // }, [easyState]);
   
     // `NormalGame`  `localStorage` update
     useEffect(() => {
@@ -115,7 +115,8 @@ const initialEasyState = {
     }, [normalState]);
   
     return (
-      <GameContext.Provider value={{ easyState, easyDispatch, normalState, normalDispatch }}>
+      // <GameContext.Provider value={{ easyState, easyDispatch, normalState, normalDispatch }}>
+      <GameContext.Provider value={{ normalState, normalDispatch }}>
         {children}
       </GameContext.Provider>
     );
