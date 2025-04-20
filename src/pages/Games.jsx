@@ -20,47 +20,47 @@ const Games = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/games", {
-          credentials: "include",
-        });
-        const data = await res.json();
-
-        // filter
-        const cleanData = {
-          openGames: data.openGames.filter((g) => !g.isAI),
-          myOpenGames: data.myOpenGames.filter((g) => !g.isAI),
-          myActiveGames: data.myActiveGames.filter((g) => !g.isAI),
-          myCompletedGames: data.myCompletedGames.filter((g) => !g.isAI),
-          otherGames: data.otherGames.filter((g) => !g.isAI),
-        };
-
-        setGamesData(cleanData);
-      } catch (err) {
-        console.error("Failed to fetch games:", err);
-      }
-    };
-
-    fetchGames();
-  }, []);
-
   // useEffect(() => {
   //   const fetchGames = async () => {
   //     try {
-  //       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/games`, {
+  //       const res = await fetch("http://localhost:5000/api/games", {
   //         credentials: "include",
   //       });
   //       const data = await res.json();
-  //       // ...
+
+  //       // filter
+  //       const cleanData = {
+  //         openGames: data.openGames.filter((g) => !g.isAI),
+  //         myOpenGames: data.myOpenGames.filter((g) => !g.isAI),
+  //         myActiveGames: data.myActiveGames.filter((g) => !g.isAI),
+  //         myCompletedGames: data.myCompletedGames.filter((g) => !g.isAI),
+  //         otherGames: data.otherGames.filter((g) => !g.isAI),
+  //       };
+
+  //       setGamesData(cleanData);
   //     } catch (err) {
   //       console.error("Failed to fetch games:", err);
   //     }
   //   };
-  
+
   //   fetchGames();
   // }, []);
+
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/games`, {
+          credentials: "include",
+        });
+        const data = await res.json();
+        // ...
+      } catch (err) {
+        console.error("Failed to fetch games:", err);
+      }
+    };
+  
+    fetchGames();
+  }, []);
 
   const renderGameItem = (g, label = "View") => (
     <li key={g._id} className="game-item">
