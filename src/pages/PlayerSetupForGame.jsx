@@ -21,7 +21,7 @@ const PlayerSetupForGame = () => {
   const [playerShips, setPlayerShips] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/auth/me", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -31,7 +31,7 @@ const PlayerSetupForGame = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/games/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/games/${id}`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -42,7 +42,7 @@ const PlayerSetupForGame = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetch(`http://localhost:5000/api/games/${id}`, {
+      fetch(`${import.meta.env.VITE_API_URL}/api/games/${id}`, {
         credentials: "include",
       })
         .then((res) => res.json())
@@ -87,7 +87,7 @@ const PlayerSetupForGame = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/games/${id}/board`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/games/${id}/board`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

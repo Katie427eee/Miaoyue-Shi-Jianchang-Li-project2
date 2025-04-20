@@ -15,7 +15,7 @@ const Home = () => {
 
   const handlePlayAI = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/games/ai", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/games/ai`, {
         method: "POST",
         credentials: "include",
       });
@@ -34,7 +34,7 @@ const Home = () => {
 
   const handleNewGame = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/games", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/games`, {
         method: "POST",
         credentials: "include",
       });

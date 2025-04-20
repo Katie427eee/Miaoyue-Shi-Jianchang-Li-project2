@@ -26,7 +26,7 @@ const LiveGame = () => {
 
   const fetchGame = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/games/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/games/${id}`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -46,7 +46,7 @@ const LiveGame = () => {
 
   useEffect(() => {
     // fetch username from cookie-protected endpoint
-    fetch("http://localhost:5000/api/auth/me", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -95,7 +95,7 @@ const LiveGame = () => {
     if (opponentHits.includes(index)) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/games/${id}/move`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/games/${id}/move`, {
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

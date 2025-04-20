@@ -18,7 +18,7 @@ const AIGame = () => {
   const [enemyBoard, setEnemyBoard] = useState(Array(100).fill(null));
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/games/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/games/${id}`, {
       credentials: "include"
     })
       .then((res) => res.json())

@@ -14,7 +14,7 @@ const GamePage = () => {
   const isLoggedIn = !!user;
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/games/${gameId}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/games/${gameId}`, {
       credentials: "include",
     })
       .then((res) => res.json())

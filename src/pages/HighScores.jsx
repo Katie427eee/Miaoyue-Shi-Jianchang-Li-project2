@@ -9,7 +9,7 @@ const HighScores = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/scores", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/scores`, {
       credentials: "include",
     })
       .then((res) => res.json())
