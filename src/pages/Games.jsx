@@ -53,9 +53,20 @@ const Games = () => {
           credentials: "include",
         });
         const data = await res.json();
-        // ...
+  
+        const cleanData = {
+          openGames: data.openGames?.filter((g) => !g.isAI) || [],
+          myOpenGames: data.myOpenGames?.filter((g) => !g.isAI) || [],
+          myActiveGames: data.myActiveGames?.filter((g) => !g.isAI) || [],
+          myCompletedGames: data.myCompletedGames?.filter((g) => !g.isAI) || [],
+          otherGames: data.otherGames?.filter((g) => !g.isAI) || [],
+        };
+  
+        setGamesData(cleanData);
       } catch (err) {
         console.error("Failed to fetch games:", err);
+      } finally {
+        setLoading(false);
       }
     };
   
