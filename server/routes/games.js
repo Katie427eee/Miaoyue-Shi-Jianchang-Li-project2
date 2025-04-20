@@ -144,12 +144,51 @@ router.put("/:id/join", async (req, res) => {
 });
 
 // GET /api/games/:id
+// router.get("/:id", async (req, res) => {
+//   try {
+//     const game = await Game.findById(req.params.id);
+//     if (!game) return res.status(404).json({ error: "Game not found" });
+
+//     res.json(game);
+//   } catch (err) {
+//     console.error("Error fetching game:", err);
+//     res.status(500).json({ error: "Failed to fetch game" });
+//   }
+// });
+
+// GET /api/games/:id
 router.get("/:id", async (req, res) => {
   try {
     const game = await Game.findById(req.params.id);
     if (!game) return res.status(404).json({ error: "Game not found" });
 
-    res.json(game);
+    const token = req.cookies.token;
+    let username = null;
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      username = decoded.username;
+    } catch (err) {
+      console.log("? Invalid token in GET /games/:id");
+    }
+
+    const isPlayer1 = game.player1 === username;
+    const isPlayer2 = game.player2 === username;
+
+    if (!username || (!isPlayer1 && !isPlayer2)) {
+      return res.json({
+        _id: game._id,
+        player1: game.player1,
+        player2: game.player2,
+        player1Hits: game.player1Hits,
+        player2Hits: game.player2Hits,
+        isAI: game.isAI,
+        winner: game.winner,
+        createdAt: game.createdAt,
+        updatedAt: game.updatedAt,
+      });
+    }
+
+    return res.json(game);
   } catch (err) {
     console.error("Error fetching game:", err);
     res.status(500).json({ error: "Failed to fetch game" });

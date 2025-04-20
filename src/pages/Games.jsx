@@ -73,7 +73,7 @@ const Games = () => {
           ? {formatDate(g.createdAt)} ~ {formatDate(g.updatedAt || g.createdAt)}
         </div>
       </div>
-      <button onClick={() => navigate(`/game/${g._id}`)}>{label}</button>
+      <button onClick={() => navigate(`/game/view/${g._id}`)}>{label}</button>
     </li>
   );
 
@@ -90,7 +90,7 @@ const Games = () => {
 
   const renderSection = (title, games, actionLabel, customAction) => {
     if (!games || games.length === 0) return null;
-
+  
     return (
       <section>
         <h3>{title}</h3>
@@ -98,11 +98,33 @@ const Games = () => {
           {games.map((g) => (
             <li key={g._id} className="game-item">
               <div className="game-info">
-                <div>{g.player1} vs {g.player2 || "Waiting..."}</div>
-                <div className="game-meta">{formatDate(g.createdAt)}</div>
+                <div>
+                  {g.player1} vs {g.player2 || "Waiting..."}
+                </div>
+                {g.winner && (
+                  <div className="game-meta">
+                    Winner: <b>{g.winner}</b><br />
+                    {formatDate(g.createdAt)} ~ {formatDate(g.updatedAt || g.createdAt)}
+                  </div>
+                )}
+                {!g.winner && (
+                  <div className="game-meta">
+                    {formatDate(g.createdAt)}
+                  </div>
+                )}
               </div>
               <div>
-                <button onClick={() => navigate(`/game/${g._id}`)}>{actionLabel}</button>
+                <button
+                  onClick={() =>
+                    navigate(
+                      actionLabel === "View"
+                        ? `/game/view/${g._id}`
+                        : `/game/${g._id}`
+                    )
+                  }
+                >
+                  {actionLabel}
+                </button>
                 {customAction && <button onClick={customAction}>Challenge AI</button>}
               </div>
             </li>
@@ -190,7 +212,7 @@ const Games = () => {
                     <div className="game-meta">{formatDate(g.createdAt)}</div>
                   </div>
                   <div>
-                    <button onClick={() => navigate(`/game/${g._id}`)}>View</button>
+                  <button onClick={() => navigate(`/game/view/${g._id}`)}>View</button>
                     <button onClick={challengeAI}>Challenge AI</button>
                   </div>
                 </li>

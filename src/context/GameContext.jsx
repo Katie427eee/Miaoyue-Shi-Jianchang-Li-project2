@@ -113,10 +113,27 @@ import React, { createContext, useContext, useEffect, useReducer } from "react";
         localStorage.removeItem("normalGameState");
       }
     }, [normalState]);
+
+    const startNewMultiplayerGame = async (navigate) => {
+      try {
+        const res = await fetch("http://localhost:5000/api/games", {
+          method: "POST",
+          credentials: "include",
+        });
+        const data = await res.json();
+        if (data._id) {
+          navigate(`/game/${data._id}`);
+        } else {
+          alert("Failed to create new game.");
+        }
+      } catch (err) {
+        console.error("Error creating game:", err);
+      }
+    };
   
     return (
       // <GameContext.Provider value={{ easyState, easyDispatch, normalState, normalDispatch }}>
-      <GameContext.Provider value={{ normalState, normalDispatch }}>
+      <GameContext.Provider value={{ normalState, normalDispatch, startNewMultiplayerGame }}>
         {children}
       </GameContext.Provider>
     );
@@ -126,4 +143,3 @@ import React, { createContext, useContext, useEffect, useReducer } from "react";
   export const useGame = () => {
     return useContext(GameContext);
   };
-  

@@ -1,0 +1,173 @@
+/* 整体布局 */
+.game-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+    text-align: center;
+    color: white;
+  }
+  
+  .background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("../assets/battleship-background.jpg") no-repeat center center;
+    background-size: cover;
+    z-index: -1;
+  }
+  
+  .content-wrapper {
+    position: relative;
+    width: 90%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    border-radius: 15px;
+    background: rgba(96, 95, 95, 0.8);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    z-index: 3;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* 棋盘容器 */
+  .boards-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 750px;
+    gap: 40px;
+    margin: 0 auto;
+  }
+  
+  .game-board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: 2px;
+    width: 300px;
+    height: 300px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    border: 2px solid white;
+  }
+  
+  /* 单格 tile 样式 */
+  .tile {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid #999;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box;
+  }
+  
+  .tile:hover {
+    background-color: rgba(233, 24, 24, 0.67);
+    transition: background-color 0.3s ease;
+  }
+  
+  /* 命中效果图标 */
+  .tile.hit-enemy {
+    background: url("../assets/hit.png") no-repeat center center/cover;
+  }
+  
+  .tile.hit-player {
+    background: url("../assets/hitmy.png") no-repeat center center/cover;
+  }
+  
+  .tile.miss {
+    background: url("../assets/miss.png") no-repeat center center/cover;
+  }
+  
+  .tile.ship {
+    background: url("../assets/my-ship.png") no-repeat center center/cover;
+  }
+  
+  /* 禁用交互（未登录用户） */
+  .disabled-board {
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* 游戏列表样式复用 */
+  .game-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+  
+  .game-info {
+    text-align: left;
+  }
+  
+  .game-meta {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-top: 0.3rem;
+  }
+  
+  button {
+    padding: 0.5rem 1rem;
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #187bcd;
+  }
+  
+  .highlight {
+    font-weight: bold;
+    color: #66c2ff;
+  }
+  
+  /* 响应式适配 */
+  @media (max-width: 768px) {
+    .content-wrapper {
+      width: 95%;
+      padding: 1.5rem;
+    }
+  
+    .game-board {
+      width: 280px;
+      height: 280px;
+    }
+  
+    .boards-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+  }
+  

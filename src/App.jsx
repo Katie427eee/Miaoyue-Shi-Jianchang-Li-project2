@@ -14,6 +14,7 @@ import Games from "./pages/Games";
 import AIGame from "./pages/AIGame";
 import LiveGame from "./pages/LiveGame";
 import PlayerSetupForGame from "./pages/PlayerSetupForGame";
+import GamePage from "./pages/GamePage";
 
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="/game/ai/:id" element={<AIGame />} />
         <Route path="/game/:id" element={<LiveGame />} />
         <Route path="/setup/:id" element={<PlayerSetupForGame />} />
+        <Route path="/game/view/:gameId" element={<GamePage />} />
 
       </Routes>
     </>
