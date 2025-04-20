@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-require("dotenv").config(); // 必须放在顶部！
+require("dotenv").config();
 
 const gamesRoutes = require("./routes/games");
 const scoresRoutes = require("./routes/scores");
@@ -10,7 +10,6 @@ const authRoutes = require("./routes/auth");
 
 const app = express();
 
-// Dynamic CORS
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "http://localhost:5173",

@@ -46,11 +46,13 @@ router.post("/login", async (req, res) => {
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1d" });  
 
   res
-    .cookie("token", token, {
-      httpOnly: true,
-      sameSite: "Lax",
-    })
-    .json({ message: "Login successful", username });
+  .cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  })
+  .json({ message: "Login successful", username });
+
 });
 
 router.post("/logout", (req, res) => {
