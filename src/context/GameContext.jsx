@@ -116,7 +116,7 @@ import React, { createContext, useContext, useEffect, useReducer } from "react";
 
     const startNewMultiplayerGame = async (navigate) => {
       try {
-        const res = await fetch("http://localhost:5000/api/games", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/games`, {
           method: "POST",
           credentials: "include",
         });

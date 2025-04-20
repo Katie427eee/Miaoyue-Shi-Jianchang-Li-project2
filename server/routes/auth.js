@@ -60,20 +60,6 @@ router.post("/logout", (req, res) => {
 
 router.get("/me", (req, res) => {
   const token = req.cookies.token;
-  if (!token) {
-    return res.json({ username: null });
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "defaultsecret");
-    return res.json({ username: decoded.username });
-  } catch (err) {
-    return res.json({ username: null });
-  }
-});
-
-router.get("/me", (req, res) => {
-  const token = req.cookies.token;
   if (!token) return res.status(401).json({ error: "Not logged in" });
 
   try {
