@@ -20,21 +20,6 @@ const Games = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   fetch("http://localhost:5000/api/games", {
-  //     credentials: "include",
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setGamesData(data);
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.error("Error fetching games:", err);
-  //       setLoading(false);
-  //     });
-  // }, []);
-
   useEffect(() => {
     const fetchGames = async () => {
       try {
@@ -60,6 +45,22 @@ const Games = () => {
 
     fetchGames();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchGames = async () => {
+  //     try {
+  //       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/games`, {
+  //         credentials: "include",
+  //       });
+  //       const data = await res.json();
+  //       // ...
+  //     } catch (err) {
+  //       console.error("Failed to fetch games:", err);
+  //     }
+  //   };
+  
+  //   fetchGames();
+  // }, []);
 
   const renderGameItem = (g, label = "View") => (
     <li key={g._id} className="game-item">
