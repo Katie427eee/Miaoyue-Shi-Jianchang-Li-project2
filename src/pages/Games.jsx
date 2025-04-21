@@ -6,6 +6,7 @@ import "../styles/common.css";
 import "../styles/games.css";
 
 const formatDate = (d) => new Date(d).toLocaleString();
+const API = import.meta.env.VITE_API_URL;
 
 const Games = () => {
   const { user } = useAuth();
@@ -149,7 +150,7 @@ const Games = () => {
 
   const challengeAI = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/games/ai", {
+      const res = await fetch(`${API}/api/games/ai`, {
         method: "POST",
         credentials: "include",
       });
@@ -167,7 +168,7 @@ const Games = () => {
 
   const joinGame = async (gameId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/games/${gameId}/join`, {
+      const res = await fetch(`${API}/api/games/${gameId}/join`, {
         method: "PUT",
         credentials: "include",
       });
